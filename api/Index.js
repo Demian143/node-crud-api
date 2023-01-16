@@ -1,4 +1,4 @@
-import CreateUser from './functions/CreateUser.js';
+import CreateUpdate from './functions/fakeorm/CreateUpdate.js';
 import express from 'express';
 
 const app = express();
@@ -17,8 +17,11 @@ app.post('/', (req, resp) => {
         country: req.query.country
     };
 
-    CreateUser(newUser);
-    resp.send(`Successfully created user: ${JSON.stringify(newUser.name)}`);
+    if (CreateUpdate(newUser)) {
+        return resp.status(201).send(`Successfully created user: ${JSON.stringify(newUser.name)}`);
+    } else {
+        return resp.status(500).send('Something went wrong in the server.');
+    }
 });
 
 app.listen(port, () => {
