@@ -1,11 +1,19 @@
 import CreateUpdate from './functions/fakeorm/CreateUpdate.js';
+import ReadUser from './functions/ReadUser.js';
 import express from 'express';
 
 const app = express();
 const port = 3000;
 
-// Create a new user
+
 app.get('/', (req, resp) => {
+    const name = req.query.name;
+
+    if (name) {
+        ReadUser({ name: name, resp: resp });
+    }
+
+    ReadUser({ resp: resp });
 });
 
 app.post('/', (req, resp) => {
@@ -18,11 +26,12 @@ app.post('/', (req, resp) => {
     };
 
     if (CreateUpdate(newUser)) {
-        return resp.status(201).send(`Successfully created user: ${JSON.stringify(newUser.name)}`);
+        resp.status(201).send(`Successfully created user: ${JSON.stringify(newUser.name)}`);
     } else {
-        return resp.status(500).send('Something went wrong in the server.');
+        resp.status(500).send('Something went wrong in the server.');
     }
 });
+
 
 app.listen(port, () => {
     console.log('Listening on port:', port);

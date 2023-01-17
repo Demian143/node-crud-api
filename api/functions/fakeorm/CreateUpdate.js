@@ -13,9 +13,7 @@ function CreateUpdate(obj) {
         }
 
         const newJson = JSON.parse(data);
-        // This sintax ensures that will not have duplicates,
-        // If you refer to the same object it will be updated.
-        newJson[obj.name] = obj;
+        newJson.users.push(obj);
         fs.writeFile("./api/db.json", JSON.stringify(newJson), (err) => { console.log(err); });
     });
 

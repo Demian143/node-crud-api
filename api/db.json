@@ -1,1 +1,25 @@
-{"Demian":{"name":"Demian","age":24,"city":"São Gonçalo","state":"RJ","country":"BR"},"Demian1":{"name":"Demian1","age":24,"city":"São Gonçalo","state":"RJ","country":"BR"},"Demian2":{"name":"Demian2","age":25,"city":"São Gonçalo","state":"RJ","country":"BR"},"demaa":{"name":"demaa","age":"foo","city":"bar","state":"rj","country":"sasa"},"test":{"name":"test","age":"36","city":"sao gonçalo","state":"rj"},"debian":{"name":"debian","age":"24","city":"sao gonçaloq","state":"rj","country":"br"}}
+{
+    "users": [
+        {
+            "name": "debian2",
+            "age": "24",
+            "city": "sao gonçaloq",
+            "state": "rj",
+            "country": "br"
+        },
+        {
+            "name": "debian",
+            "age": "24",
+            "city": "sao gonçaloq",
+            "state": "rj",
+            "country": "br"
+        },
+        {
+            "name": "debian1",
+            "age": "24",
+            "city": "sao gonçaloq",
+            "state": "rj",
+            "country": "br"
+        }
+    ]
+}
