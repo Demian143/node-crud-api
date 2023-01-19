@@ -9,11 +9,12 @@ function ReadUser({ name, resp }) {
         const result = JSON.parse(data);
 
         if (name) {
-            const user = result.users.filter(user => user.name === name)
-            resp.status(200).send(JSON.stringify(user));
-        }
+            const getUser = result.users.filter(user => user.name === name)
+            resp.status(200).json(getUser);
 
-        resp.status(200).send(JSON.stringify(data));
+        } else {
+            resp.status(200).json(result);
+        }
     });
 }
 

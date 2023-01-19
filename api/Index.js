@@ -11,6 +11,7 @@ app.get('/', (req, resp) => {
 
     if (name) {
         ReadUser({ name: name, resp: resp });
+        return;
     }
 
     ReadUser({ resp: resp });
