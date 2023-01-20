@@ -11,10 +11,9 @@ app.get('/', (req, resp) => {
 
     if (name) {
         ReadUser({ name: name, resp: resp });
-        return;
+    } else {
+        ReadUser({ resp: resp });
     }
-
-    ReadUser({ resp: resp });
 });
 
 app.post('/', (req, resp) => {
