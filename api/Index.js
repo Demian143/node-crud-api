@@ -1,5 +1,7 @@
 import CreateUpdate from './functions/fakeorm/CreateUpdate.js';
 import ReadUser from './functions/ReadUser.js';
+import UpdateUser from './functions/UpdateUser.js';
+
 import express from 'express';
 
 const app = express();
@@ -30,6 +32,20 @@ app.post('/', (req, resp) => {
     } else {
         resp.status(500).send('Something went wrong in the server.');
     }
+});
+
+app.patch('/', (req, resp) => {
+    const user = {
+        name: req.query.name,
+        newName: req.query.newName,
+        age: req.query.age,
+        city: req.query.city,
+        state: req.query.state,
+        country: req.query.country,
+        resp: resp
+    };
+
+    UpdateUser(user)
 });
 
 

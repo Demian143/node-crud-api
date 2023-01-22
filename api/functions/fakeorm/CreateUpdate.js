@@ -14,7 +14,7 @@ function CreateUpdate(obj) {
 
         const newJson = JSON.parse(data);
         newJson.users.push(obj);
-        fs.writeFile("./api/db.json", JSON.stringify(newJson), (err) => { console.log(err); });
+        fs.writeFile("./api/db.json", JSON.stringify(newJson), (err) => { console.log(err) });
     });
 
     return true;
