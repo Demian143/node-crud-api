@@ -1,6 +1,7 @@
 import CreateUser from './functions/CreateUser.js';
 import ReadUser from './functions/ReadUser.js';
 import UpdateUser from './functions/UpdateUser.js';
+import DeleteUser from './functions/DeleteUser.js';
 
 import express from 'express';
 
@@ -50,6 +51,9 @@ app.patch('/', (req, resp) => {
     UpdateUser(user, resp);
 });
 
+app.delete('/', (req, resp) => {
+    DeleteUser(req.query.name, resp);
+})
 
 app.listen(port, () => {
     console.log('Listening on port:', port);
