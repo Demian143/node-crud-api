@@ -1,4 +1,3 @@
-// import { response as resp } from 'express';
 import fs from 'fs';
 
 
@@ -20,8 +19,7 @@ function UpdateUser({ name, newName, age, city, state, country, resp }) {
         if (getUser.length === 0) {
             resp.status(404).send('User not found');
             return;
-        }
-        if (newName) {
+        } if (newName) {
             getUser[0].name = newName;
         } if (age) {
             getUser[0].age = age;
@@ -33,8 +31,16 @@ function UpdateUser({ name, newName, age, city, state, country, resp }) {
             getUser[0].country = country;
         }
 
-        fs.writeFile('api/db.json', JSON.stringify(result), (err) => { console.log(err) });
-        resp.status(200).json(getUser[0]);
+        fs.writeFile('api/db.json', JSON.stringify(result), (err) => {
+            if (err) {
+                console.log(err);
+                resp.status(500).send('Sorry, something went wrong.')
+                return;
+            }
+
+            resp.status(200).json(getUser[0]);
+        });
+
     });
 }
 
