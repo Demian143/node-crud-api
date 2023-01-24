@@ -1,4 +1,4 @@
-import CreateUpdate from './functions/fakeorm/CreateUpdate.js';
+import CreateUser from './functions/CreateUser.js';
 import ReadUser from './functions/ReadUser.js';
 import UpdateUser from './functions/UpdateUser.js';
 
@@ -27,11 +27,14 @@ app.post('/', (req, resp) => {
         country: req.query.country
     };
 
-    if (CreateUpdate(newUser)) {
-        resp.status(201).send(`Successfully created user: ${JSON.stringify(newUser.name)}`);
-    } else {
-        resp.status(500).send('Something went wrong in the server.');
+    for (let value in newUser) {
+        if (newUser[value] === undefined) {
+            resp.send(`Value ${value} is missing, please fill the fields correctly. Hint: values are name, age, city, state and country.`);
+            return;
+        }
     }
+
+    CreateUser(newUser, resp)
 });
 
 app.patch('/', (req, resp) => {
