@@ -11,6 +11,11 @@ function DeleteUser(name, resp) {
         const usersArr = JSON.parse(data);
         var userDeleted = {};
 
+        if (usersArr.users.length === 0) {
+            resp.status(404).send('User not found.');
+            return;
+        }
+
         usersArr.users.map(user => {
             user.name === name && usersArr.users.pop(user);
             userDeleted = user;
