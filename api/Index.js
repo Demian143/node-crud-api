@@ -44,11 +44,10 @@ app.patch('/', (req, resp) => {
         age: req.query.age,
         city: req.query.city,
         state: req.query.state,
-        country: req.query.country,
-        resp: resp
+        country: req.query.country
     };
 
-    UpdateUser(user)
+    UpdateUser(user, resp);
 });
 
 
