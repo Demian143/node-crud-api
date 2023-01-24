@@ -6,60 +6,55 @@ function UpdateUser(obj, resp) {
         if (err) {
             throw err;
         }
-
-        const result = JSON.parse(data);
-
         if (obj.name === undefined) {
             resp.send('Name must be provided');
             return;
         }
 
+        const result = JSON.parse(data);
         const getUser = result.users.filter(user => user.name === obj.name);
+        const builtedUser = BuildAlterations(getUser, obj, resp);
 
-        if (getUser.length === 0) {
-            resp.status(404).send('User not found');
-            return;
+        if (builtedUser) {
+            SaveAlterations(builtedUser, JSON.stringify(result), resp);
         }
-
-        for (let value in obj) {
-            if (!obj[value] || value === 'newName') {
-                continue;
-            }
-            if (obj[value] && value !== 'name') {
-                getUser[0][value] = obj[value];
-                continue;
-            }
-            if (obj.newName) {
-                getUser[0]['name'] = obj.newName;
-            }
-        }
-
-        // if (getUser.length === 0) {
-        //     resp.status(404).send('User not found');
-        //     return;
-        // } if (newName) {
-        //     getUser[0].name = newName;
-        // } if (age) {
-        //     getUser[0].age = age;
-        // } if (city) {
-        //     getUser[0].city = city;
-        // } if (state) {
-        //     getUser[0].state = state;
-        // } if (country) {
-        //     getUser[0].country = country;
-        // }
-
-        fs.writeFile('api/db.json', JSON.stringify(result), (err) => {
-            if (err) {
-                console.log(err);
-                resp.status(500).send('Sorry, something went wrong.')
-                return;
-            }
-
-            resp.status(200).json(getUser[0]);
-        });
     });
 }
 
+
+function BuildAlterations(getUser, obj, resp) {
+    if (getUser.length === 0) {
+        resp.status(404).send('User not found');
+        return;
+    }
+
+    for (let value in obj) {
+        if (!obj[value] || value === 'newName') {
+            continue;
+        }
+        if (obj[value] && value !== 'name') {
+            getUser[0][value] = obj[value];
+            continue;
+        }
+        if (obj.newName) {
+            getUser[0]['name'] = obj.newName;
+        }
+    };
+
+    return getUser;
+}
+
+
+function SaveAlterations(getUser, result, resp) {
+    fs.writeFile('api/db.json', result, (err) => {
+        if (err) {
+            console.log(err);
+            resp.status(500).send('Sorry, something went wrong.')
+            return;
+        }
+
+        resp.status(200).json(getUser[0]);
+    });
+}
 
 export default UpdateUser;
