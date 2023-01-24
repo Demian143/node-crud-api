@@ -26,7 +26,7 @@ app.post('/', (req, resp) => {
         state: req.query.state,
         country: req.query.country
     };
-
+    // field verification
     for (let value in newUser) {
         if (newUser[value] === undefined) {
             resp.send(`Value ${value} is missing, please fill the fields correctly. Hint: values are name, age, city, state and country.`);
