@@ -8,7 +8,6 @@ import express from 'express';
 const app = express();
 const port = 3000;
 
-// TODO: Check if all the status codes are correct.
 
 app.get('/', (req, resp) => {
     const name = req.query.name;
