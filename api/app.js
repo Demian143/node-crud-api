@@ -61,6 +61,8 @@ app.delete('/', (req, resp) => {
 });
 
 
-app.listen(port, () => {
-    console.log('Listening on port:', port);
-});
+// app.listen(port, () => {
+//     console.log('Listening on port:', port);
+// });
+
+export default app;
