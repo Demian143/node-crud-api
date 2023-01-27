@@ -1,40 +1,21 @@
 import supertest from "supertest";
 import app from "../app.js";
-import fs from 'fs';
+import { cleanDB } from "./cleanDB.js";
 
-function cleanDB() {
-    return fs.readFile('./api/db.json', 'utf-8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
 
-        const json = JSON.parse(data)
-        json.users = []
-
-        fs.writeFileSync('./api/db.json', JSON.stringify(json), (err) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-        })
-    })
-}
-
-// TODO: increase the timeout value of tests
-beforeEach(async () => {
-    await cleanDB();
+beforeEach(() => {
+    cleanDB();
 });
 
 
-it('GET / --> Empty array', async () => {
+it('GET / --> Empty Array', async () => {
     await supertest(app).get('/')
         .expect(200)
         .expect('Content-Type', /json/)
         .expect('{"users":[]}');
 });
 
-it('GET / --> Array with one user', async () => {
+it('GET / --> Array With One User', async () => {
     const user = {
         name: 'Debian',
         age: '23',
@@ -42,8 +23,15 @@ it('GET / --> Array with one user', async () => {
         state: 'RJ',
         country: 'Brazil'
     };
-    await supertest(app)
-        .post('/?name=Debian&age=23&city=São Gonçalo&state=RJ&country=Brazil')
-        .expect(user)
+    const response = supertest(app)
+    // Create resource object
+    await response
+        .post('/')
+        .send(user)
         .expect(201);
+
+    // Check if resource exists
+    await response.get('/?name=Debian')
+        .expect(200)
+        .expect(user);
 });
