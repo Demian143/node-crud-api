@@ -2,10 +2,14 @@ import CreateUser from './functions/CreateUser.js';
 import ReadUser from './functions/ReadUser.js';
 import UpdateUser from './functions/UpdateUser.js';
 import DeleteUser from './functions/DeleteUser.js';
+import bodyParser from 'body-parser';
 
 import express from 'express';
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 const port = 3000;
 
 
@@ -21,11 +25,11 @@ app.get('/', (req, resp) => {
 
 app.post('/', (req, resp) => {
     const user = {
-        name: req.query.name,
-        age: req.query.age,
-        city: req.query.city,
-        state: req.query.state,
-        country: req.query.country
+        name: req.body.name,
+        age: req.body.age,
+        city: req.body.city,
+        state: req.body.state,
+        country: req.body.country
     };
     // field verification
     for (let value in user) {
