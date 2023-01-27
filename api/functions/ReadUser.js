@@ -10,7 +10,7 @@ function ReadUser({ name, resp }) {
 
         if (name) {
             const getUser = result.users.filter(user => user.name === name)
-            resp.status(200).json(getUser);
+            resp.status(200).json(getUser[0]);
 
         } else {
             resp.status(200).json(result);
