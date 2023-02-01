@@ -1,5 +1,6 @@
 import supertest from "supertest";
 import app from "../app.js";
+
 import { cleanDB } from "./cleanDB.js";
 
 
@@ -7,6 +8,9 @@ beforeEach(() => {
     cleanDB();
 });
 
+afterAll(() => {
+    cleanDB();
+});
 
 it('GET / --> Empty Array', async () => {
     await supertest(app).get('/')
@@ -15,7 +19,7 @@ it('GET / --> Empty Array', async () => {
         .expect('{"users":[]}');
 });
 
-it('GET / --> Array With One User', async () => {
+it('POST / --> JSON obj with a user', async () => {
     const user = {
         name: 'Debian',
         age: '23',
@@ -24,6 +28,7 @@ it('GET / --> Array With One User', async () => {
         country: 'Brazil'
     };
     const response = supertest(app)
+
     // Create resource object
     await response
         .post('/')
@@ -35,3 +40,50 @@ it('GET / --> Array With One User', async () => {
         .expect(200)
         .expect(user);
 });
+
+it('PATCH / --> JSON obj modified', async () => {
+    const user = {
+        name: 'Debian',
+        age: '23',
+        city: 'São Gonçalo',
+        state: 'RJ',
+        country: 'Brazil'
+    };
+    const response = supertest(app)
+
+    // Create resource object
+    await response
+        .post('/')
+        .send(user)
+        .expect(201);
+
+    // Modify name
+    user.name = 'DebianNew';
+    await response.patch('/')
+        .send({ name: 'Debian', newName: 'DebianNew' })
+        .expect(user)
+        .expect(200);
+})
+
+it('DELETE / --> JSON obj deleted', async () => {
+    const user = {
+        name: 'Debian',
+        age: '23',
+        city: 'São Gonçalo',
+        state: 'RJ',
+        country: 'Brazil'
+    };
+    const response = supertest(app)
+
+    // Create resource object
+    await response
+        .post('/')
+        .send(user)
+        .expect(user)
+        .expect(201);
+
+    // Modify name
+    await response.delete('/')
+        .send({ name: 'Debian' })
+        .expect(user);
+})
