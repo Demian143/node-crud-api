@@ -44,21 +44,22 @@ app.post('/', (req, resp) => {
 
 app.patch('/', (req, resp) => {
     const user = {
-        name: req.query.name,
-        newName: req.query.newName,
-        age: req.query.age,
-        city: req.query.city,
-        state: req.query.state,
-        country: req.query.country
+        name: req.body.name,
+        newName: req.body.newName,
+        age: req.body.age,
+        city: req.body.city,
+        state: req.body.state,
+        country: req.body.country
     };
 
     UpdateUser(user, resp);
 });
 
 app.delete('/', (req, resp) => {
-    const name = req.query.name
+    const name = req.body.name
     if (!name) {
-        resp.status(422).send('Name is required.')
+        resp.status(422).send('Name is required.');
+        return;
     }
     DeleteUser(name, resp);
 });
