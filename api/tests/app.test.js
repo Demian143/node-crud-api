@@ -3,14 +3,9 @@ import app from "../app.js";
 
 import { cleanDB } from "./cleanDB.js";
 
-
-beforeEach(() => {
-    cleanDB();
-});
-
-afterAll(() => {
-    cleanDB();
-});
+// Setup and teardown
+beforeEach(() => cleanDB());
+afterAll(() => cleanDB());
 
 it('GET / --> Empty Array', async () => {
     await supertest(app).get('/')
@@ -82,7 +77,7 @@ it('DELETE / --> JSON obj deleted', async () => {
         .expect(user)
         .expect(201);
 
-    // Modify name
+    // Delete
     await response.delete('/')
         .send({ name: 'Debian' })
         .expect(user);
