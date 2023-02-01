@@ -4,16 +4,16 @@ function DeleteUser(name, resp) {
     fs.readFile("./api/db.json", (err, data) => {
         if (err) {
             console.error(err);
-            resp.status(500).send('Sorry, something went wrong.');
-            return;
+            return resp.status(500).send('Sorry, something went wrong.');
+
         }
 
         const usersArr = JSON.parse(data);
         var userDeleted = {};
 
         if (usersArr.users.length === 0) {
-            resp.status(404).send('User not found.');
-            return;
+            return resp.status(404).send('User not found.');
+
         }
 
         usersArr.users.map(user => {
@@ -24,11 +24,11 @@ function DeleteUser(name, resp) {
         fs.writeFile('./api/db.json', JSON.stringify(usersArr), (err) => {
             if (err) {
                 console.error(err);
-                resp.status(500).send('Sorry, something went wrong.');
-                return;
+                return resp.status(500).send('Sorry, something went wrong.');
+
             }
 
-            resp.status(200).send(userDeleted);
+            return resp.status(200).send(userDeleted);
         });
     });
 }

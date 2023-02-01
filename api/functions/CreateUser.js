@@ -2,10 +2,10 @@ import fs from 'fs';
 
 
 function CreateUser(obj, resp) {
-    fs.readFile("./api/db.json", "utf-8", (err, data) => {
+    return fs.readFile("./api/db.json", "utf-8", (err, data) => {
         if (err) {
-            console.log(err);
-            return;
+            throw err;
+
         }
 
         const newJson = JSON.parse(data);
@@ -14,11 +14,11 @@ function CreateUser(obj, resp) {
         fs.writeFile("./api/db.json", JSON.stringify(newJson), err => {
             if (err) {
                 console.log(err);
-                resp.status(500).send('Sorry, something went wrong.')
-                return;
+                return resp.status(500).send('Sorry, something went wrong.')
+
             }
 
-            resp.status(201).json(obj);
+            return resp.status(201).json(obj);
         });
     });
 }

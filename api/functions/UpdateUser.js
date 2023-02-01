@@ -2,13 +2,13 @@ import fs from 'fs';
 
 
 function UpdateUser(obj, resp) {
-    fs.readFile("./api/db.json", "utf-8", (err, data) => {
+    return fs.readFile("./api/db.json", "utf-8", (err, data) => {
         if (err) {
             throw err;
         }
         if (obj.name === undefined) {
-            resp.send('Name must be provided');
-            return;
+            return resp.send('Name must be provided');
+
         }
 
         const result = JSON.parse(data);
@@ -24,8 +24,8 @@ function UpdateUser(obj, resp) {
 
 function BuildAlterations(getUser, obj, resp) {
     if (getUser.length === 0) {
-        resp.status(404).send('User not found');
-        return;
+        return resp.status(404).send('User not found');
+
     }
 
     for (let value in obj) {
@@ -46,14 +46,14 @@ function BuildAlterations(getUser, obj, resp) {
 
 
 function SaveAlterations(getUser, result, resp) {
-    fs.writeFile('api/db.json', result, (err) => {
+    return fs.writeFile('api/db.json', result, (err) => {
         if (err) {
             console.log(err);
-            resp.status(500).send('Sorry, something went wrong.')
-            return;
+            return resp.status(500).send('Sorry, something went wrong.')
+
         }
 
-        resp.status(200).json(getUser[0]);
+        return resp.status(200).json(getUser[0]);
     });
 }
 
